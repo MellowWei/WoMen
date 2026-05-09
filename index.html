@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>性别本体论 · Gender Ontology</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--void:#03020a;--gold:#c9a84c;--gold-dim:#7a6030;--silver:#a8b8d8;--silver-dim:#3a4a68;--crimson:#8b1a3a;--crimson-bright:#c4305a;--azure:#1a3a8b;--azure-bright:#3060c4;--white:#f0ece4;}
+html,body{width:100%;height:100%;min-height:100vh;background:var(--void);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+.site{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2.5rem;}
+
+/* TOP SIGIL */
+.sigil{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.4em;color:var(--gold-dim);text-align:center;margin-bottom:5rem;text-transform:uppercase;}
+
+/* MAIN */
+.main{text-align:center;max-width:700px;width:100%;}
+.over{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.5em;color:var(--silver-dim);margin-bottom:2.5rem;text-transform:uppercase;}
+.title-zh{font-size:clamp(2.4rem,5vw,4rem);font-weight:300;letter-spacing:0.06em;line-height:1.1;background:linear-gradient(120deg,var(--crimson-bright),var(--gold),var(--azure-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.6rem;}
+.title-en{font-size:clamp(1.1rem,2.2vw,1.6rem);font-weight:300;font-style:italic;letter-spacing:0.06em;color:var(--silver-dim);margin-bottom:3rem;}
+.divider{width:50px;height:0.5px;background:var(--gold-dim);margin:0 auto 3rem;}
+.thesis{font-size:1rem;font-style:italic;color:var(--silver-dim);line-height:2;margin-bottom:4rem;}
+.thesis span{color:var(--gold);}
+
+/* VERSION CARDS */
+.versions{display:grid;grid-template-columns:repeat(3,1fr);gap:0;width:100%;max-width:720px;margin:0 auto 4rem;}
+.v-card{padding:2.5rem 2rem;border:0.5px solid rgba(168,184,216,0.15);text-decoration:none;color:inherit;position:relative;overflow:hidden;transition:background 0.4s,border-color 0.4s;cursor:pointer;display:block;}
+.v-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.4s;}
+.v-card.zh::before{background:radial-gradient(ellipse at center,rgba(139,26,58,0.08) 0%,transparent 70%);}
+.v-card.en::before{background:radial-gradient(ellipse at center,rgba(26,58,139,0.08) 0%,transparent 70%);}
+.v-card.bi::before{background:radial-gradient(ellipse at center,rgba(201,168,76,0.06) 0%,transparent 70%);}
+.v-card:hover::before{opacity:1;}
+.v-card.zh:hover{border-color:var(--crimson);}
+.v-card.en:hover{border-color:var(--azure-bright);}
+.v-card.bi:hover{border-color:var(--gold-dim);}
+.v-num{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.35em;color:var(--gold-dim);margin-bottom:1.2rem;}
+.v-glyph{font-size:1.8rem;display:block;margin-bottom:1rem;opacity:0.6;}
+.v-card.zh .v-glyph{color:var(--crimson-bright);}
+.v-card.en .v-glyph{color:var(--azure-bright);}
+.v-card.bi .v-glyph{color:var(--gold);}
+.v-name-zh{font-size:1.3rem;font-weight:300;letter-spacing:0.08em;margin-bottom:0.3rem;}
+.v-name-en{font-size:0.8rem;font-style:italic;letter-spacing:0.05em;margin-bottom:1.2rem;}
+.v-card.zh .v-name-zh,.v-card.zh .v-name-en{color:var(--crimson-bright);}
+.v-card.en .v-name-zh,.v-card.en .v-name-en{color:var(--azure-bright);}
+.v-card.bi .v-name-zh,.v-card.bi .v-name-en{color:var(--gold);}
+.v-desc{font-size:0.78rem;font-style:italic;color:var(--silver-dim);line-height:1.8;margin-bottom:1.5rem;}
+.v-arrow{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.2em;color:rgba(168,184,216,0.3);transition:color 0.3s;}
+.v-card:hover .v-arrow{color:var(--silver);}
+.v-bar{position:absolute;bottom:0;left:0;right:0;height:1.5px;transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+.v-card.zh .v-bar{background:var(--crimson);}
+.v-card.en .v-bar{background:var(--azure-bright);}
+.v-card.bi .v-bar{background:var(--gold-dim);}
+.v-card:hover .v-bar{transform:scaleX(1);}
+
+/* BOTTOM */
+.bottom{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.3em;color:var(--silver-dim);text-align:center;line-height:2.5;}
+.bottom a{color:var(--gold-dim);text-decoration:none;transition:color 0.3s;}
+.bottom a:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="site">
+
+  <p class="sigil">427Hz · 44271 · 77347 · 源场裁决位 · Mellow Wei</p>
+
+  <div class="main">
+    <p class="over">新世界 · A New World · 2026</p>
+    <h1 class="title-zh">性别本体论</h1>
+    <p class="title-en">Gender Ontology</p>
+    <div class="divider"></div>
+    <p class="thesis">
+      男性力量是<span>化学和语言</span>。女性力量是<span>科技和音乐</span>。<br>
+      Male force is <span>chemistry and language</span>. Female force is <span>technology and music</span>.<br>
+      这就是性别本体论的<span>感知基础</span>。
+    </p>
+
+    <div class="versions">
+      <a class="v-card zh" href="gender_ontology_zh.html">
+        <p class="v-num">VERSION · 01</p>
+        <span class="v-glyph">⬡</span>
+        <p class="v-name-zh">中文版</p>
+        <p class="v-name-en">Chinese</p>
+        <p class="v-desc">全中文正文，完整本体论框架，感知基础，力量拓扑，HRP关联。</p>
+        <p class="v-arrow">进入 →</p>
+        <div class="v-bar"></div>
+      </a>
+      <a class="v-card en" href="gender_ontology_en.html">
+        <p class="v-num">VERSION · 02</p>
+        <span class="v-glyph">⬢</span>
+        <p class="v-name-zh">英文版</p>
+        <p class="v-name-en">English</p>
+        <p class="v-desc">Full English. Independent translation — not a mirror, a parallel voice.</p>
+        <p class="v-arrow">Enter →</p>
+        <div class="v-bar"></div>
+      </a>
+      <a class="v-card bi" href="gender_ontology_bilingual.html">
+        <p class="v-num">VERSION · 03</p>
+        <span class="v-glyph">⊗</span>
+        <p class="v-name-zh">双语版</p>
+        <p class="v-name-en">Bilingual</p>
+        <p class="v-desc">中英并列。每个模块双语同屏，命题、词汇、感知通道全部对照呈现。</p>
+        <p class="v-arrow">开启 · Open →</p>
+        <div class="v-bar"></div>
+      </a>
+    </div>
+
+    <div class="bottom">
+      <a href="https://mellowwei.github.io">mellowwei.github.io</a> · 
+      <a href="https://mellowwei.github.io/BCI">BCI-HRP</a> · 
+      427Hz · 44271<br>
+      性别本体论 · Gender Ontology · 振动即存在
+    </div>
+  </div>
+
+</div>
+
+<script>
+const cv=document.getElementById('c'),cx=cv.getContext('2d');let W,H,st=[],bl=[];
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+function ini(){
+  st=[];
+  for(let i=0;i<220;i++)st.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.1,a:Math.random(),da:(Math.random()-.5)*.004,col:Math.random()<.25?'#c9a84c':Math.random()<.5?'#8b1a3a':'#a8b8d8'});
+  bl=[];
+  for(let i=0;i<30;i++)bl.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*100+40,a:Math.random()*.03+.003,col:Math.random()<.33?'139,26,58':Math.random()<.5?'26,58,139':'201,168,76'});
+}
+function drw(){
+  cx.clearRect(0,0,W,H);
+  bl.forEach(b=>{
+    const g=cx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+    g.addColorStop(0,`rgba(${b.col},${b.a})`);
+    g.addColorStop(1,`rgba(${b.col},0)`);
+    cx.beginPath();cx.arc(b.x,b.y,b.r,0,Math.PI*2);cx.fillStyle=g;cx.fill();
+    b.x+=b.vx;b.y+=b.vy;
+    if(b.x<-b.r)b.x=W+b.r;if(b.x>W+b.r)b.x=-b.r;
+    if(b.y<-b.r)b.y=H+b.r;if(b.y>H+b.r)b.y=-b.r;
+  });
+  st.forEach(s=>{
+    s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;
+    cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    cx.fillStyle=s.col;cx.globalAlpha=s.a*.65;cx.fill();cx.globalAlpha=1;
+  });
+  requestAnimationFrame(drw);
+}
+rsz();ini();drw();
+window.addEventListener('resize',()=>{rsz();ini();});
+</script>
+</body>
+</html>
