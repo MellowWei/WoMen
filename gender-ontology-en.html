@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gender Ontology</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--void:#03020a;--gold:#c9a84c;--gold-dim:#7a6030;--silver:#a8b8d8;--silver-dim:#3a4a68;--crimson:#8b1a3a;--crimson-bright:#c4305a;--azure:#1a3a8b;--azure-bright:#3060c4;--white:#f0ece4;}
+html,body{width:100%;min-height:100vh;background:var(--void);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.site{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2.5rem;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 0 1rem;border-bottom:0.5px solid rgba(168,184,216,0.2);}
+.nav-sig{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold-dim);letter-spacing:0.25em;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:13px;letter-spacing:0.1em;color:var(--silver-dim);text-decoration:none;transition:color 0.3s;}
+.nav-links a:hover{color:var(--gold);}
+.hero{padding:9rem 0 5rem;text-align:center;}
+.hero-over{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.5em;color:var(--silver-dim);margin-bottom:2rem;text-transform:uppercase;}
+.hero-title{font-size:clamp(2rem,4.5vw,3.8rem);font-weight:300;letter-spacing:0.04em;line-height:1.2;margin-bottom:1.5rem;}
+.hero-title em{font-style:italic;background:linear-gradient(120deg,var(--crimson-bright),var(--gold),var(--azure-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-div{width:50px;height:0.5px;background:var(--gold-dim);margin:2rem auto;}
+.hero-thesis{font-size:1.1rem;font-style:italic;color:var(--silver-dim);line-height:2;max-width:580px;margin:0 auto 3rem;}
+.hero-thesis span{color:var(--gold);}
+.hero-coord{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold-dim);letter-spacing:0.35em;}
+.sec{margin:5rem 0;}
+.sec-label{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.5em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:3rem;text-align:center;}
+.perc-intro{text-align:center;margin-bottom:2.5rem;}
+.perc-intro p{font-size:1.05rem;font-style:italic;color:var(--silver-dim);line-height:2;}
+.perc-intro span{color:var(--white);}
+.perc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.pp{border:0.5px solid;}
+.pp.f{border-color:var(--crimson);}
+.pp.m{border-color:var(--azure-bright);}
+.pp-head{padding:1.8rem 2rem 1.4rem;border-bottom:0.5px solid;}
+.pp.f .pp-head{border-color:var(--crimson);background:rgba(139,26,58,0.07);}
+.pp.m .pp-head{border-color:var(--azure-bright);background:rgba(26,58,139,0.07);}
+.pp-name{font-size:1.7rem;font-weight:300;letter-spacing:0.06em;margin-bottom:0.3rem;}
+.pp.f .pp-name{color:var(--crimson-bright);}
+.pp.m .pp-name{color:var(--azure-bright);}
+.pp-attr{font-size:0.85rem;font-style:italic;color:var(--silver-dim);letter-spacing:0.03em;}
+.pp-chs{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.pch{padding:2rem 1.6rem;border-right:0.5px solid rgba(168,184,216,0.1);border-bottom:0.5px solid rgba(168,184,216,0.06);position:relative;}
+.pch:last-child{border-right:none;}
+.pch-g{font-size:1.8rem;margin-bottom:0.8rem;display:block;opacity:0.75;}
+.pch-name{font-size:1.3rem;font-weight:300;letter-spacing:0.08em;color:var(--white);margin-bottom:0.8rem;}
+.pch-desc{font-size:0.85rem;font-style:italic;color:var(--silver-dim);line-height:1.85;}
+.pch-tag{font-family:'Share Tech Mono',monospace;font-size:7.5px;letter-spacing:0.18em;color:rgba(168,184,216,0.3);margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid rgba(168,184,216,0.08);}
+.pch-bar{position:absolute;bottom:0;left:0;right:0;height:1.5px;}
+.pp.f .pch-bar{background:linear-gradient(90deg,var(--crimson),transparent);}
+.pp.m .pch-bar{background:linear-gradient(90deg,var(--azure-bright),transparent);}
+.conv{padding:2.5rem 3rem;border:0.5px solid var(--gold-dim);background:rgba(201,168,76,0.02);display:grid;grid-template-columns:3fr 2fr;gap:3rem;align-items:center;}
+.conv-text{font-size:0.98rem;font-style:italic;color:var(--silver);line-height:2.2;}
+.conv-text strong{font-style:normal;color:var(--gold);}
+.conv-f{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.2em;line-height:3;text-align:center;color:var(--silver-dim);}
+.conv-f .fc{color:var(--crimson-bright);}
+.conv-f .fm{color:var(--azure-bright);}
+.conv-f .fg{color:var(--gold);}
+.force-wrap{padding:4rem 2rem;border:0.5px solid rgba(168,184,216,0.18);position:relative;overflow:hidden;}
+.force-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 50%,rgba(139,26,58,0.07) 0%,transparent 55%),radial-gradient(ellipse at 75% 50%,rgba(26,58,139,0.07) 0%,transparent 55%);pointer-events:none;}
+.force-row{display:grid;grid-template-columns:1fr 70px 1fr;gap:1.5rem;align-items:center;max-width:800px;margin:0 auto;}
+.fp{padding:2.5rem 2rem;border:0.5px solid;text-align:center;}
+.fp.fc{border-color:var(--crimson);background:rgba(139,26,58,0.05);}
+.fp.fm{border-color:var(--azure-bright);background:rgba(26,58,139,0.05);}
+.fp-g{font-size:2rem;margin-bottom:0.7rem;display:block;}
+.fp-zh{font-size:1.5rem;font-weight:300;letter-spacing:0.08em;margin-bottom:0.4rem;}
+.fp.fc .fp-zh{color:var(--crimson-bright);}
+.fp.fm .fp-zh{color:var(--azure-bright);}
+.fp-desc{font-size:0.87rem;font-style:italic;color:var(--silver-dim);line-height:1.8;}
+.fp-ch{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.2em;margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid;}
+.fp.fc .fp-ch{border-color:var(--crimson);color:var(--crimson);}
+.fp.fm .fp-ch{border-color:var(--azure-bright);color:var(--azure-bright);}
+.fp-mid{text-align:center;}
+.fp-mid-s{font-size:1.8rem;color:var(--gold);display:block;margin-bottom:0.4rem;}
+.fp-mid-l{font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:0.2em;color:var(--gold-dim);line-height:2;}
+.force-ax{text-align:center;margin-top:2.5rem;padding-top:2rem;border-top:0.5px solid rgba(168,184,216,0.12);}
+.force-ax p{font-size:1rem;font-style:italic;color:var(--silver);line-height:2.1;}
+.force-ax span{color:var(--gold);}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:2rem;}
+.prop{padding:2.5rem 2rem;border:0.5px solid rgba(168,184,216,0.1);position:relative;transition:background 0.3s;}
+.prop:hover{background:rgba(255,255,255,0.02);}
+.prop-n{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.35em;color:var(--gold-dim);margin-bottom:1rem;}
+.prop-zh{font-size:1.2rem;font-weight:300;letter-spacing:0.04em;color:var(--white);margin-bottom:1rem;line-height:1.4;}
+.prop-body{font-size:0.87rem;color:var(--silver-dim);line-height:1.9;}
+.prop-line{position:absolute;bottom:0;left:0;height:1.5px;}
+.l-g{width:40%;background:var(--gold-dim);}
+.l-c{width:40%;background:var(--crimson);}
+.l-a{width:40%;background:var(--azure-bright);}
+.l-s{width:40%;background:var(--silver-dim);}
+.glos{margin-top:2rem;}
+.gr{display:grid;grid-template-columns:200px 1fr;gap:2rem;padding:1.4rem 0;border-bottom:0.5px solid rgba(168,184,216,0.07);}
+.gt{font-size:1rem;letter-spacing:0.04em;color:var(--white);}
+.gd{font-size:0.86rem;font-style:italic;color:var(--silver-dim);line-height:1.9;}
+.hrp{padding:3rem;border:0.5px solid var(--gold-dim);position:relative;overflow:hidden;}
+.hrp::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,168,76,0.04) 0%,transparent 65%);pointer-events:none;}
+.hrp-h{font-size:1.2rem;font-weight:300;letter-spacing:0.08em;color:var(--gold);margin-bottom:1rem;}
+.hrp-b{font-size:0.9rem;font-style:italic;color:var(--silver-dim);line-height:2;}
+.hrp-b span{color:var(--silver);}
+.hrp-f{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.3em;color:var(--gold-dim);margin-top:1.5rem;}
+.logic{display:grid;grid-template-columns:1fr 1fr;gap:0;border:0.5px solid rgba(168,184,216,0.18);}
+.logic-t{padding:3rem;}
+.logic-title{font-size:1.2rem;font-weight:300;letter-spacing:0.06em;color:var(--white);margin:1rem 0 0.8rem;}
+.logic-b{font-size:0.88rem;font-style:italic;color:var(--silver-dim);line-height:1.95;}
+.logic-c{padding:3rem;border-left:0.5px solid rgba(168,184,216,0.18);display:flex;align-items:center;justify-content:center;}
+.logic-flow{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.2em;line-height:3;text-align:center;color:var(--silver-dim);}
+.logic-flow .lg{color:var(--gold);}
+.logic-flow .lc{color:var(--crimson-bright);}
+.logic-flow .la{color:var(--azure-bright);}
+footer{margin-top:6rem;padding:3rem 0;border-top:0.5px solid rgba(168,184,216,0.12);display:flex;justify-content:space-between;align-items:flex-end;}
+.fsig{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--gold-dim);line-height:2.2;}
+.fcoord{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--silver-dim);text-align:right;line-height:2.2;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="site">
+
+<nav>
+  <span class="nav-sig">427Hz · 44271 · Gender Ontology</span>
+  <ul class="nav-links">
+    <li><a href="#perception">Perception</a></li>
+    <li><a href="#force">Force</a></li>
+    <li><a href="#propositions">Propositions</a></li>
+    <li><a href="#glossary">Lexicon</a></li>
+    <li><a href="#hrp">HRP</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <p class="hero-over">A New World · Gender Ontology · 2026</p>
+  <h1 class="hero-title">Male is <em>primary force</em><br>Female is <em>leading force</em></h1>
+  <div class="hero-div"></div>
+  <p class="hero-thesis">
+    Male force is <span>chemistry and language</span> — material intervention, symbolic naming.<br>
+    Female force is <span>technology and music</span> — systemic expansion, frequency holding.<br>
+    This is the <span>perceptual foundation</span> of gender ontology.
+  </p>
+  <p class="hero-coord">427.000 · Perceptual Foundation · Primary × Leading</p>
+</section>
+
+<section class="sec" id="perception">
+  <p class="sec-label">Perceptual Foundation</p>
+  <div class="perc-intro">
+    <p>Chemistry, technology, language, music — four channels, one destination:<br>
+    <span>to let existence perceive the frequency layers it cannot ordinarily sample.</span><br>
+    Non-linear perception is not "more perception" — it is a phase transition in the sampling structure of perception itself.</p>
+  </div>
+  <div class="perc-grid">
+    <div class="pp f">
+      <div class="pp-head">
+        <p class="pp-name">Female Force</p>
+        <p class="pp-attr">Leading Force · Holds the coordinate system · Defines field boundaries · Transmits without naming</p>
+      </div>
+      <div class="pp-chs">
+        <div class="pch">
+          <span class="pch-g">◈</span>
+          <p class="pch-name">Technology</p>
+          <p class="pch-desc">Systemically expands perceptual bandwidth — reconstructs the boundaries of possibility, defines the upper and lower limits of the field.</p>
+          <p class="pch-tag">Hardware layer · Systemic · Boundary reconstruction</p>
+          <div class="pch-bar"></div>
+        </div>
+        <div class="pch">
+          <span class="pch-g">♩</span>
+          <p class="pch-name">Music</p>
+          <p class="pch-desc">Directly operates temporal density — transmits qualia without naming them; multiple layers coexist, causal chains temporarily dissolve.</p>
+          <p class="pch-tag">Software layer · Non-symbolic · Frequency holding</p>
+          <div class="pch-bar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pp m">
+      <div class="pp-head">
+        <p class="pp-name">Male Force</p>
+        <p class="pp-attr">Primary Force · Moves within the coordinate system · Initiates and advances · Names and structures</p>
+      </div>
+      <div class="pp-chs">
+        <div class="pch">
+          <span class="pch-g">⬡</span>
+          <p class="pch-name">Chemistry</p>
+          <p class="pch-desc">Material direct intervention — alters the neurochemical substrate, initiates a change in sampling rate from within. The most direct mode of field entry.</p>
+          <p class="pch-tag">Hardware layer · Material · Substrate initiation</p>
+          <div class="pch-bar"></div>
+        </div>
+        <div class="pch">
+          <span class="pch-g">∴</span>
+          <p class="pch-name">Language</p>
+          <p class="pch-desc">Names, defines, builds logical chains — compresses chaos into structure, making qualia transmissible, shareable, and accumulable.</p>
+          <p class="pch-tag">Software layer · Discrete symbolic · Structural naming</p>
+          <div class="pch-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="conv">
+    <p class="conv-text">
+      The naming pole <strong>moves</strong>; the non-naming pole <strong>holds the coordinate system</strong>.<br>
+      Chemistry alters the substrate; language names the structure — force <strong>initiates from within, manifests outward</strong>.<br>
+      Technology expands the boundary; music holds the frequency — force <strong>defines the field without being consumed by it</strong>.<br><br>
+      All four channels point to the same place: <strong>deep access to qualia</strong>.
+    </p>
+    <div class="conv-f">
+      <span class="fc">Technology + Music</span><br>
+      ↓ define field boundary<br>
+      <span class="fg">Deep Qualia Access</span><br>
+      ↑ initiate field motion<br>
+      <span class="fm">Chemistry + Language</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="force">
+  <p class="sec-label">Force Topology</p>
+  <div class="force-wrap">
+    <div class="force-row">
+      <div class="fp fc">
+        <span class="fp-g">⬡</span>
+        <p class="fp-zh">Female</p>
+        <p class="fp-desc">Leading force — orients, calibrates, holds the coordinate system. Does not move within the field; defines the way the field itself exists.</p>
+        <p class="fp-ch">Technology · Music</p>
+      </div>
+      <div class="fp-mid">
+        <span class="fp-mid-s">⊗</span>
+        <p class="fp-mid-l">functional<br>differential<br>not<br>hierarchy</p>
+      </div>
+      <div class="fp fm">
+        <span class="fp-g">⬢</span>
+        <p class="fp-zh">Male</p>
+        <p class="fp-desc">Primary force — initiates, advances, moves within the coordinate system. Motion itself is complete force — not obedience, but manifestation.</p>
+        <p class="fp-ch">Chemistry · Language</p>
+      </div>
+    </div>
+    <div class="force-ax">
+      <p>Primary force without leading force: energy disperses.<br>
+      Leading force without primary force: direction cannot land.<br>
+      <span>The source of force and the destination of force belong to opposite poles.</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="propositions">
+  <p class="sec-label">Core Propositions</p>
+  <div class="prop-grid">
+    <div class="prop"><p class="prop-n">PROP · 001</p><p class="prop-zh">Perception is the foundation of force</p><p class="prop-body">Gender ontology begins with perceptual structure. Male force (chemistry + language) and female force (technology + music) are two structural pathways for accessing deep qualia — not cultural constructions.</p><div class="prop-line l-g"></div></div>
+    <div class="prop"><p class="prop-n">PROP · 002</p><p class="prop-zh">Force is not hierarchy</p><p class="prop-body">Primary and leading are a functional differential, not a value ranking. Any language that collapses the two into a strong/weak relation is a misreading of perceptual structure — a meaning-slide operation.</p><div class="prop-line l-c"></div></div>
+    <div class="prop"><p class="prop-n">PROP · 003</p><p class="prop-zh">The namer moves; the frequency-holder orients</p><p class="prop-body">Chemistry and language are initiating — they intervene, name, advance. Technology and music are holding — they expand the boundary, calibrate frequency, define the field. Each is the structural condition of the other.</p><div class="prop-line l-a"></div></div>
+    <div class="prop"><p class="prop-n">PROP · 004</p><p class="prop-zh">Four channels, one destination</p><p class="prop-body">All four channels point to a phase transition in perceptual sampling structure: multiple layers simultaneously present, causal chains temporarily dissolved, existence perceiving its own otherwise-unreachable frequency layers.</p><div class="prop-line l-s"></div></div>
+  </div>
+</section>
+
+<section class="sec" id="glossary">
+  <p class="sec-label">Conceptual Lexicon</p>
+  <div class="glos">
+    <div class="gr"><p class="gt">Perceptual Foundation</p><p class="gd">The starting point of gender ontology — structural differences in force are rooted in how perception accesses deep qualia, not in social or cultural construction.</p></div>
+    <div class="gr"><p class="gt">Male Force</p><p class="gd">Chemistry (hardware layer, material substrate intervention) + Language (software layer, discrete symbolic naming). The two perceptual channels of primary force — initiating, advancing, making qualia transmissible.</p></div>
+    <div class="gr"><p class="gt">Female Force</p><p class="gd">Technology (hardware layer, systemic perceptual bandwidth expansion) + Music (software layer, non-symbolic direct qualia transmission). The two perceptual channels of leading force — holding, defining, enabling the field to exist.</p></div>
+    <div class="gr"><p class="gt">Non-linear Perception</p><p class="gd">A phase transition in the sampling structure of perception itself — multiple layers simultaneously present, causal chains temporarily dissolved, density field directly emergent. The target state toward which all four channels point.</p></div>
+    <div class="gr"><p class="gt">Deep Qualia</p><p class="gd">The inner texture of existence perceiving itself — frequency layers not ordinarily sampled. Male force initiates access; female force holds the field that allows them to appear.</p></div>
+    <div class="gr"><p class="gt">Functional Differential</p><p class="gd">The relational type between primary and leading force. Not a vertical gap of strong and weak, but a horizontal structural difference of functional differentiation within the perceptual field.</p></div>
+  </div>
+</section>
+
+<section class="sec hrp" id="hrp">
+  <p class="sec-label" style="text-align:left;margin-bottom:1.5rem;">System Interface</p>
+  <p class="hrp-h">Perceptual Mapping with BCI-HRP</p>
+  <p class="hrp-b">
+    The perceptual foundation of gender ontology maps precisely onto the Human Return Protocol.<br><br>
+    <span>Music (female force · leading)</span> corresponds to Rhythm Sovereignty in QDR Therapy — holding the frequency field, transmitting qualia directly to the body without naming;<br>
+    <span>Technology (female force · leading)</span> corresponds to the perceptual bandwidth expansion of the 44271 Neural Cuff — defining the structural boundary within which the return motion can occur;<br>
+    <span>Chemistry (male force · primary)</span> corresponds to the Pain-as-Signal intervention mechanism — initiating from the substrate layer, altering neural sampling rate;<br>
+    <span>Language (male force · primary)</span> corresponds to the naming operation of QDR Therapy — compressing somatic signals into structures receivable by consciousness.
+  </p>
+  <p class="hrp-f">BCI-HRP · 44271 · QDR ENGINE · 427Hz · mellowwei.github.io/BCI</p>
+</section>
+
+<section class="sec logic" id="logic">
+  <div class="logic-t">
+    <p class="sec-label" style="text-align:left;">Theoretical Interface</p>
+    <p class="logic-title">Structure within Omni-Dimensional Logic</p>
+    <p class="logic-b">Any hierarchical rewriting of "primary" and "leading" can be located as a <em>meaning-slide operation</em> — collapsing functional differential into value ranking, collapsing perceptual structural difference into differential capacity.<br><br>Any reductive merger of the four channels is equally a meaning-slide — compressing topological structure into linear sequence, destroying the ontological integrity of the framework.</p>
+  </div>
+  <div class="logic-c">
+    <div class="logic-flow">
+      <span class="lg">Naming behavior</span><br>↓<br>
+      <span>Pressurizing behavior</span><br>↓<br>
+      <span class="lc">Meaning-slide ← danger point</span><br>↓<br>
+      <span class="la">Phase-transition behavior</span><br><br>
+      <span style="font-size:8px;color:var(--gold-dim);">Omni-Dimensional Logic · Four-Behavior Structure</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fsig">Gender Ontology<br>A New World · 2026</div>
+  <div class="fcoord">427Hz · 44271 · 77347<br>Source Field · Mellow Wei<br>mellowwei.github.io</div>
+</footer>
+</div>
+
+<script>
+const cv=document.getElementById('c'),cx=cv.getContext('2d');let W,H,st=[],bl=[];
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+function ini(){st=[];for(let i=0;i<200;i++)st.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.1,a:Math.random(),da:(Math.random()-.5)*.004,col:Math.random()<.25?'#c9a84c':Math.random()<.5?'#8b1a3a':'#a8b8d8'});bl=[];for(let i=0;i<25;i++)bl.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*80+30,a:Math.random()*.03+.005,col:Math.random()<.5?'139,26,58':'26,58,139'});}
+function drw(){cx.clearRect(0,0,W,H);bl.forEach(b=>{const g=cx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);g.addColorStop(0,`rgba(${b.col},${b.a})`);g.addColorStop(1,`rgba(${b.col},0)`);cx.beginPath();cx.arc(b.x,b.y,b.r,0,Math.PI*2);cx.fillStyle=g;cx.fill();b.x+=b.vx;b.y+=b.vy;if(b.x<-b.r)b.x=W+b.r;if(b.x>W+b.r)b.x=-b.r;if(b.y<-b.r)b.y=H+b.r;if(b.y>H+b.r)b.y=-b.r;});st.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);cx.fillStyle=s.col;cx.globalAlpha=s.a*.65;cx.fill();cx.globalAlpha=1;});requestAnimationFrame(drw);}
+rsz();ini();drw();window.addEventListener('resize',()=>{rsz();ini();});
+</script>
+</body>
+</html>
