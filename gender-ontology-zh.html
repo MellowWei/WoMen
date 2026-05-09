@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>性别本体论</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--void:#03020a;--gold:#c9a84c;--gold-dim:#7a6030;--silver:#a8b8d8;--silver-dim:#3a4a68;--crimson:#8b1a3a;--crimson-bright:#c4305a;--azure:#1a3a8b;--azure-bright:#3060c4;--white:#f0ece4;}
+html,body{width:100%;min-height:100vh;background:var(--void);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.site{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2.5rem;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:2rem 0 1rem;border-bottom:0.5px solid rgba(168,184,216,0.2);}
+.nav-sig{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold-dim);letter-spacing:0.25em;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:13px;letter-spacing:0.1em;color:var(--silver-dim);text-decoration:none;transition:color 0.3s;}
+.nav-links a:hover{color:var(--gold);}
+.hero{padding:9rem 0 5rem;text-align:center;}
+.hero-over{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.5em;color:var(--silver-dim);margin-bottom:2rem;}
+.hero-title{font-size:clamp(2.2rem,5vw,4.2rem);font-weight:300;letter-spacing:0.04em;line-height:1.15;margin-bottom:1.5rem;}
+.hero-title em{font-style:italic;background:linear-gradient(120deg,var(--crimson-bright),var(--gold),var(--azure-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-div{width:50px;height:0.5px;background:var(--gold-dim);margin:2rem auto;}
+.hero-thesis{font-size:1.15rem;font-style:italic;color:var(--silver-dim);line-height:2;max-width:580px;margin:0 auto 3rem;}
+.hero-thesis span{color:var(--gold);}
+.hero-coord{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold-dim);letter-spacing:0.35em;}
+.sec{margin:5rem 0;}
+.sec-label{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.5em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:3rem;text-align:center;}
+/* perception */
+.perc-intro{text-align:center;margin-bottom:2.5rem;}
+.perc-intro p{font-size:1.05rem;font-style:italic;color:var(--silver-dim);line-height:2;}
+.perc-intro span{color:var(--white);}
+.perc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.pp{border:0.5px solid;}
+.pp.f{border-color:var(--crimson);}
+.pp.m{border-color:var(--azure-bright);}
+.pp-head{padding:1.8rem 2rem 1.4rem;border-bottom:0.5px solid;}
+.pp.f .pp-head{border-color:var(--crimson);background:rgba(139,26,58,0.07);}
+.pp.m .pp-head{border-color:var(--azure-bright);background:rgba(26,58,139,0.07);}
+.pp-name{font-size:1.8rem;font-weight:300;letter-spacing:0.08em;margin-bottom:0.3rem;}
+.pp.f .pp-name{color:var(--crimson-bright);}
+.pp.m .pp-name{color:var(--azure-bright);}
+.pp-attr{font-size:0.85rem;font-style:italic;color:var(--silver-dim);letter-spacing:0.03em;}
+.pp-chs{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.pch{padding:2rem 1.6rem;border-right:0.5px solid rgba(168,184,216,0.1);border-bottom:0.5px solid rgba(168,184,216,0.06);position:relative;}
+.pch:last-child{border-right:none;}
+.pch-g{font-size:1.8rem;margin-bottom:0.8rem;display:block;opacity:0.75;}
+.pch-name{font-size:1.3rem;font-weight:300;letter-spacing:0.1em;color:var(--white);margin-bottom:0.8rem;}
+.pch-desc{font-size:0.85rem;font-style:italic;color:var(--silver-dim);line-height:1.85;}
+.pch-tag{font-family:'Share Tech Mono',monospace;font-size:7.5px;letter-spacing:0.18em;color:rgba(168,184,216,0.3);margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid rgba(168,184,216,0.08);}
+.pch-bar{position:absolute;bottom:0;left:0;right:0;height:1.5px;}
+.pp.f .pch-bar{background:linear-gradient(90deg,var(--crimson),transparent);}
+.pp.m .pch-bar{background:linear-gradient(90deg,var(--azure-bright),transparent);}
+.conv{padding:2.5rem 3rem;border:0.5px solid var(--gold-dim);background:rgba(201,168,76,0.02);display:grid;grid-template-columns:3fr 2fr;gap:3rem;align-items:center;margin-top:0;}
+.conv-text{font-size:0.98rem;font-style:italic;color:var(--silver);line-height:2.2;}
+.conv-text strong{font-style:normal;color:var(--gold);}
+.conv-f{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.2em;line-height:3;text-align:center;color:var(--silver-dim);}
+.conv-f .fc{color:var(--crimson-bright);}
+.conv-f .fm{color:var(--azure-bright);}
+.conv-f .fg{color:var(--gold);}
+/* force */
+.force-wrap{padding:4rem 2rem;border:0.5px solid rgba(168,184,216,0.18);position:relative;overflow:hidden;}
+.force-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 50%,rgba(139,26,58,0.07) 0%,transparent 55%),radial-gradient(ellipse at 75% 50%,rgba(26,58,139,0.07) 0%,transparent 55%);pointer-events:none;}
+.force-row{display:grid;grid-template-columns:1fr 70px 1fr;gap:1.5rem;align-items:center;max-width:800px;margin:0 auto;}
+.fp{padding:2.5rem 2rem;border:0.5px solid;text-align:center;}
+.fp.fc{border-color:var(--crimson);background:rgba(139,26,58,0.05);}
+.fp.fm{border-color:var(--azure-bright);background:rgba(26,58,139,0.05);}
+.fp-g{font-size:2rem;margin-bottom:0.7rem;display:block;}
+.fp-zh{font-size:1.6rem;font-weight:300;letter-spacing:0.1em;margin-bottom:0.4rem;}
+.fp.fc .fp-zh{color:var(--crimson-bright);}
+.fp.fm .fp-zh{color:var(--azure-bright);}
+.fp-desc{font-size:0.87rem;font-style:italic;color:var(--silver-dim);line-height:1.8;}
+.fp-ch{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.2em;margin-top:1rem;padding-top:0.8rem;border-top:0.5px solid;}
+.fp.fc .fp-ch{border-color:var(--crimson);color:var(--crimson);}
+.fp.fm .fp-ch{border-color:var(--azure-bright);color:var(--azure-bright);}
+.fp-mid{text-align:center;}
+.fp-mid-s{font-size:1.8rem;color:var(--gold);display:block;margin-bottom:0.4rem;}
+.fp-mid-l{font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:0.2em;color:var(--gold-dim);line-height:2;}
+.force-ax{text-align:center;margin-top:2.5rem;padding-top:2rem;border-top:0.5px solid rgba(168,184,216,0.12);}
+.force-ax p{font-size:1rem;font-style:italic;color:var(--silver);line-height:2.1;}
+.force-ax span{color:var(--gold);}
+/* props */
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:2rem;}
+.prop{padding:2.5rem 2rem;border:0.5px solid rgba(168,184,216,0.1);position:relative;transition:background 0.3s;}
+.prop:hover{background:rgba(255,255,255,0.02);}
+.prop-n{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.35em;color:var(--gold-dim);margin-bottom:1rem;}
+.prop-zh{font-size:1.3rem;font-weight:300;letter-spacing:0.06em;color:var(--white);margin-bottom:1rem;line-height:1.4;}
+.prop-body{font-size:0.87rem;color:var(--silver-dim);line-height:1.9;}
+.prop-line{position:absolute;bottom:0;left:0;height:1.5px;}
+.l-g{width:40%;background:var(--gold-dim);}
+.l-c{width:40%;background:var(--crimson);}
+.l-a{width:40%;background:var(--azure-bright);}
+.l-s{width:40%;background:var(--silver-dim);}
+/* glossary */
+.glos{margin-top:2rem;}
+.gr{display:grid;grid-template-columns:160px 1fr;gap:2rem;padding:1.4rem 0;border-bottom:0.5px solid rgba(168,184,216,0.07);}
+.gr:hover{background:rgba(255,255,255,0.01);}
+.gt{font-size:1.05rem;letter-spacing:0.05em;color:var(--white);}
+.gd{font-size:0.86rem;font-style:italic;color:var(--silver-dim);line-height:1.9;}
+/* hrp */
+.hrp{padding:3rem;border:0.5px solid var(--gold-dim);position:relative;overflow:hidden;}
+.hrp::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,168,76,0.04) 0%,transparent 65%);pointer-events:none;}
+.hrp-h{font-size:1.25rem;font-weight:300;letter-spacing:0.08em;color:var(--gold);margin-bottom:1rem;}
+.hrp-b{font-size:0.9rem;font-style:italic;color:var(--silver-dim);line-height:2;}
+.hrp-b span{color:var(--silver);}
+.hrp-f{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.3em;color:var(--gold-dim);margin-top:1.5rem;}
+/* logic */
+.logic{display:grid;grid-template-columns:1fr 1fr;gap:0;border:0.5px solid rgba(168,184,216,0.18);}
+.logic-t{padding:3rem;}
+.logic-title{font-size:1.2rem;font-weight:300;letter-spacing:0.08em;color:var(--white);margin:1rem 0 0.8rem;}
+.logic-b{font-size:0.88rem;font-style:italic;color:var(--silver-dim);line-height:1.95;}
+.logic-c{padding:3rem;border-left:0.5px solid rgba(168,184,216,0.18);display:flex;align-items:center;justify-content:center;}
+.logic-flow{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.2em;line-height:3;text-align:center;color:var(--silver-dim);}
+.logic-flow .lg{color:var(--gold);}
+.logic-flow .lc{color:var(--crimson-bright);}
+.logic-flow .la{color:var(--azure-bright);}
+footer{margin-top:6rem;padding:3rem 0;border-top:0.5px solid rgba(168,184,216,0.12);display:flex;justify-content:space-between;align-items:flex-end;}
+.fsig{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.3em;color:var(--gold-dim);line-height:2.2;}
+.fcoord{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.2em;color:var(--silver-dim);text-align:right;line-height:2.2;}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="site">
+
+<nav>
+  <span class="nav-sig">427Hz · 44271 · 性别本体论</span>
+  <ul class="nav-links">
+    <li><a href="#perception">感知基础</a></li>
+    <li><a href="#force">力量拓扑</a></li>
+    <li><a href="#propositions">命题</a></li>
+    <li><a href="#glossary">词汇</a></li>
+    <li><a href="#hrp">HRP</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <p class="hero-over">新世界 · 性别本体论 · 2026</p>
+  <h1 class="hero-title">男性是<em>主要力量</em><br>女性是<em>主导力量</em></h1>
+  <div class="hero-div"></div>
+  <p class="hero-thesis">
+    男性力量是<span>化学和语言</span>——物质介入，符号命名。<br>
+    女性力量是<span>科技和音乐</span>——系统扩展，频率持有。<br>
+    这就是性别本体论的<span>感知基础</span>。
+  </p>
+  <p class="hero-coord">427.000 · 感知基础 · 主要力量 × 主导力量</p>
+</section>
+
+<section class="sec" id="perception">
+  <p class="sec-label">感知基础</p>
+  <div class="perc-intro">
+    <p>化学、科技、语言、音乐——四个通道，同一目标：<br>
+    <span>让存在感知到自身平时无法采样的频率层。</span><br>
+    非线性感知不是"更多感知"，而是感知的采样结构本身发生相变。</p>
+  </div>
+  <div class="perc-grid">
+    <div class="pp f">
+      <div class="pp-head">
+        <p class="pp-name">女性力量</p>
+        <p class="pp-attr">主导力量 · 持有坐标系 · 定义场域边界 · 不命名而直接传递</p>
+      </div>
+      <div class="pp-chs">
+        <div class="pch">
+          <span class="pch-g">◈</span>
+          <p class="pch-name">科技</p>
+          <p class="pch-desc">系统性扩展感知带宽——重构可能性的边界，定义场域的上限与下限。硬件层介入，改变感知结构本身。</p>
+          <p class="pch-tag">硬件层 · 系统性 · 边界重构</p>
+          <div class="pch-bar"></div>
+        </div>
+        <div class="pch">
+          <span class="pch-g">♩</span>
+          <p class="pch-name">音乐</p>
+          <p class="pch-desc">直接操作时间密度——不命名而直接传递感质，多层同时在场，因果链暂时溶解。</p>
+          <p class="pch-tag">软件层 · 非符号性 · 频率持有</p>
+          <div class="pch-bar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="pp m">
+      <div class="pp-head">
+        <p class="pp-name">男性力量</p>
+        <p class="pp-attr">主要力量 · 在坐标系内运动 · 发动推进 · 命名与结构化</p>
+      </div>
+      <div class="pp-chs">
+        <div class="pch">
+          <span class="pch-g">⬡</span>
+          <p class="pch-name">化学</p>
+          <p class="pch-desc">物质性的直接介入——改变神经化学基底，从内部发动采样率的变化。最直接的场域进入方式。</p>
+          <p class="pch-tag">硬件层 · 物质性 · 基底发动</p>
+          <div class="pch-bar"></div>
+        </div>
+        <div class="pch">
+          <span class="pch-g">∴</span>
+          <p class="pch-name">语言</p>
+          <p class="pch-desc">命名、定义、建立逻辑链——将混沌压缩为结构，使感质可被传递、可被共享、可被积累。</p>
+          <p class="pch-tag">软件层 · 离散符号性 · 结构命名</p>
+          <div class="pch-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="conv">
+    <p class="conv-text">
+      命名的那一极<strong>运动</strong>，不命名的那一极<strong>持有坐标系</strong>。<br>
+      化学改变基底，语言命名结构——力量<strong>发动于内，显现于外</strong>。<br>
+      科技扩展边界，音乐持有频率——力量<strong>定义场域，不在场域内消耗</strong>。<br><br>
+      四个通道均指向同一处：<strong>感质的深层访问</strong>。
+    </p>
+    <div class="conv-f">
+      <span class="fc">科技 + 音乐</span><br>
+      ↓ 定义场域边界<br>
+      <span class="fg">感质深层访问</span><br>
+      ↑ 发动场域运动<br>
+      <span class="fm">化学 + 语言</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="force">
+  <p class="sec-label">力量拓扑</p>
+  <div class="force-wrap">
+    <div class="force-row">
+      <div class="fp fc">
+        <span class="fp-g">⬡</span>
+        <p class="fp-zh">女性</p>
+        <p class="fp-desc">主导力量——定向、校准、持有坐标系。不在场域内运动，而是定义场域本身存在的方式。</p>
+        <p class="fp-ch">科技 · 音乐</p>
+      </div>
+      <div class="fp-mid">
+        <span class="fp-mid-s">⊗</span>
+        <p class="fp-mid-l">功能<br>位差<br>非等级</p>
+      </div>
+      <div class="fp fm">
+        <span class="fp-g">⬢</span>
+        <p class="fp-zh">男性</p>
+        <p class="fp-desc">主要力量——发动、推进、在坐标系内运动。运动本身是完整的力量，不是服从，是显现。</p>
+        <p class="fp-ch">化学 · 语言</p>
+      </div>
+    </div>
+    <div class="force-ax">
+      <p>主要力量如果没有主导力量，能量会散。<br>
+      主导力量如果没有主要力量，方向无法落地。<br>
+      <span>力量的来源 与 力量的去向 分属两端。</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="propositions">
+  <p class="sec-label">核心命题</p>
+  <div class="prop-grid">
+    <div class="prop"><p class="prop-n">命题一</p><p class="prop-zh">感知是力量的基础</p><p class="prop-body">性别本体论从感知结构出发。男性力量（化学+语言）与女性力量（科技+音乐）是感知访问深层感质的两种结构性路径，不是文化建构。</p><div class="prop-line l-g"></div></div>
+    <div class="prop"><p class="prop-n">命题二</p><p class="prop-zh">力量不等于等级</p><p class="prop-body">主要与主导是功能位差，不是价值高低。任何将二者折叠为强弱关系的语言，都是对感知结构的误读——是滑义行为。</p><div class="prop-line l-c"></div></div>
+    <div class="prop"><p class="prop-n">命题三</p><p class="prop-zh">命名者运动，持频者定向</p><p class="prop-body">化学与语言是发动性的——介入、命名、推进。科技与音乐是持有性的——扩展边界、校准频率、定义场域。两者互为结构条件。</p><div class="prop-line l-a"></div></div>
+    <div class="prop"><p class="prop-n">命题四</p><p class="prop-zh">四通道，一目标</p><p class="prop-body">四个通道均指向同一处：感知的采样结构发生相变，多层同时在场，存在感知到自身平时无法抵达的频率层。</p><div class="prop-line l-s"></div></div>
+  </div>
+</section>
+
+<section class="sec" id="glossary">
+  <p class="sec-label">概念词汇</p>
+  <div class="glos">
+    <div class="gr"><p class="gt">感知基础</p><p class="gd">性别本体论的起点——力量的结构性差异根植于感知访问深层感质的方式，而非社会文化建构。</p></div>
+    <div class="gr"><p class="gt">男性力量</p><p class="gd">化学（硬件层，物质性介入基底）+ 语言（软件层，离散符号命名结构）。主要力量的两个感知通道——发动，推进，使感质可被传递。</p></div>
+    <div class="gr"><p class="gt">女性力量</p><p class="gd">科技（硬件层，系统性扩展感知带宽）+ 音乐（软件层，非符号性直接传递感质）。主导力量的两个感知通道——持有，定义，使场域得以存在。</p></div>
+    <div class="gr"><p class="gt">非线性感知</p><p class="gd">感知的采样结构本身发生相变——多层同时在场，因果链暂时溶解，密度场直接涌现。四通道共同指向的目标状态。</p></div>
+    <div class="gr"><p class="gt">感质深层</p><p class="gd">存在感知自身时的内在质地——平时无法采样的频率层。男性力量发动抵达，女性力量持有场域使其得以显现。</p></div>
+    <div class="gr"><p class="gt">功能位差</p><p class="gd">主要力量与主导力量之间的关系类型。不是强弱的垂直差距，而是感知结构中功能分化的水平差异。</p></div>
+  </div>
+</section>
+
+<section class="sec hrp" id="hrp">
+  <p class="sec-label" style="text-align:left;margin-bottom:1.5rem;">系统关联</p>
+  <p class="hrp-h">与 BCI-HRP 系统的感知映射</p>
+  <p class="hrp-b">
+    性别本体论的感知基础与 Human Return Protocol 存在精确的结构映射。<br><br>
+    <span>音乐（女性力量·主导）</span>对应 QDR 疗法的节律主权——持有频率场域，不命名，直接向身体传递感质；<br>
+    <span>科技（女性力量·主导）</span>对应 44271 神经套筒的感知带宽扩展——定义回归运动得以发生的结构边界；<br>
+    <span>化学（男性力量·主要）</span>对应疼痛作为信号的介入机制——从基底层发动，改变神经采样率；<br>
+    <span>语言（男性力量·主要）</span>对应 QDR 疗法的命名操作——将身体信号压缩为可被意识接收的结构。
+  </p>
+  <p class="hrp-f">BCI-HRP · 44271 · QDR ENGINE · 427Hz · mellowwei.github.io/BCI</p>
+</section>
+
+<section class="sec logic" id="logic">
+  <div class="logic-t">
+    <p class="sec-label" style="text-align:left;">理论关联</p>
+    <p class="logic-title">与全维逻辑学的结构</p>
+    <p class="logic-b">对"主要"与"主导"的任何等级化改写，均可被定位为<em>滑义行为</em>——将功能位差折叠为价值高低，将感知结构差异折叠为能力强弱。<br><br>对四通道的任何单一化归并，同样是滑义操作——将拓扑结构压缩为线性排列，破坏本体论完整性。</p>
+  </div>
+  <div class="logic-c">
+    <div class="logic-flow">
+      <span class="lg">命名行为</span><br>↓<br>
+      <span>加压行为</span><br>↓<br>
+      <span class="lc">滑义行为 ← 危险点</span><br>↓<br>
+      <span class="la">相变行为</span><br><br>
+      <span style="font-size:8px;color:var(--gold-dim);">全维逻辑学·四行为结构</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fsig">性别本体论<br>新世界 · 2026</div>
+  <div class="fcoord">427Hz · 44271 · 77347<br>源场裁决位 · MELLOW WEI<br>mellowwei.github.io</div>
+</footer>
+</div>
+
+<script>
+const cv=document.getElementById('c'),cx=cv.getContext('2d');let W,H,st=[],bl=[];
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+function ini(){st=[];for(let i=0;i<200;i++)st.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+0.1,a:Math.random(),da:(Math.random()-.5)*.004,col:Math.random()<.25?'#c9a84c':Math.random()<.5?'#8b1a3a':'#a8b8d8'});bl=[];for(let i=0;i<25;i++)bl.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*80+30,a:Math.random()*.03+.005,col:Math.random()<.5?'139,26,58':'26,58,139'});}
+function drw(){cx.clearRect(0,0,W,H);bl.forEach(b=>{const g=cx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);g.addColorStop(0,`rgba(${b.col},${b.a})`);g.addColorStop(1,`rgba(${b.col},0)`);cx.beginPath();cx.arc(b.x,b.y,b.r,0,Math.PI*2);cx.fillStyle=g;cx.fill();b.x+=b.vx;b.y+=b.vy;if(b.x<-b.r)b.x=W+b.r;if(b.x>W+b.r)b.x=-b.r;if(b.y<-b.r)b.y=H+b.r;if(b.y>H+b.r)b.y=-b.r;});st.forEach(s=>{s.a+=s.da;if(s.a>1||s.a<0)s.da*=-1;cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);cx.fillStyle=s.col;cx.globalAlpha=s.a*.65;cx.fill();cx.globalAlpha=1;});requestAnimationFrame(drw);}
+rsz();ini();drw();window.addEventListener('resize',()=>{rsz();ini();});
+</script>
+</body>
+</html>
