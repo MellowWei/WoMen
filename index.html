@@ -587,6 +587,56 @@ p{ margin-bottom: 18px; line-height: 1.85; }
   opacity: 0.55;
 }
 
+
+.mantra{
+  margin: 80px 0 0;
+  padding: 64px 32px 56px;
+  text-align: center;
+  border-top: 0.5px solid var(--rule);
+  background:
+    radial-gradient(ellipse at center top, rgba(139,26,26,0.04), transparent 60%);
+}
+.mantra-tag{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  color: var(--ink-light);
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.mantra-zh{
+  font-family: var(--serif-zh);
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.mantra-en{
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.mantra-glyph{
+  width: 56px; height: 56px;
+  margin: 0 auto 36px;
+  display: block;
+  stroke: var(--accent);
+  fill: none;
+  stroke-width: 0.6;
+  opacity: 0.6;
+}
+@media (max-width: 700px){
+  .mantra{ padding: 48px 16px; margin-top: 56px; }
+  .mantra-zh{ font-size: 28px; }
+  .mantra-en{ font-size: 15px; }
+}
+
 </style>
 </head>
 <body>
@@ -942,6 +992,13 @@ p{ margin-bottom: 18px; line-height: 1.85; }
     </div>
   </section>
 
+  <div class="mantra">
+    <p class="mantra-tag">CODA · 收语 · 存在咒</p>
+    <svg class="mantra-glyph" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="3" fill="currentColor"/></svg>
+    <p class="mantra-zh">一直完全完整存在着呢。</p>
+    <p class="mantra-en">Always, fully, completely — already here.</p>
+  </div>
+
   <div class="colophon">
     <p class="colophon-line">振动即存在 · Vibration as Existence</p>
     <p class="colophon-line">性别本体论 · A New World · 2026</p>
@@ -1275,6 +1332,13 @@ p{ margin-bottom: 18px; line-height: 1.85; }
     </div>
   </section>
 
+  <div class="mantra">
+    <p class="mantra-tag">CODA · The Existence Mantra</p>
+    <svg class="mantra-glyph" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="3" fill="currentColor"/></svg>
+    <p class="mantra-zh">一直完全完整存在着呢。</p>
+    <p class="mantra-en">Always, fully, completely — already here.<br>The dissolution of existential anxiety in one sentence.</p>
+  </div>
+
   <div class="colophon">
     <p class="colophon-line">Vibration as Existence · 振动即存在</p>
     <p class="colophon-line">Gender Ontology · A New World · 2026</p>
@@ -1444,6 +1508,119 @@ p{ margin-bottom: 18px; line-height: 1.85; }
   </section>
 
   <section>
+    <div class="section-glyph"><svg viewBox="0 0 100 100"><polygon points="50,15 82,33 82,67 50,85 18,67 18,33"/></svg><p class="section-num">§ 5 · 概念词汇 · Conceptual Lexicon</p></div>
+    <h2 class="section-h">十二条术语</h2>
+    <p class="section-h-en">Twelve Terms</p>
+
+    <div class="glossary-entry">
+      <p class="g-term">感知基础 · Perceptual Foundation</p>
+      <div class="bi-pair"><div class="bi-zh">性别本体论的起点——力量的结构性差异根植于感知访问深层感质的方式。</div><div class="bi-en">The starting point of gender ontology — structural differences in force are rooted in how perception accesses deep qualia.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">男性力量 · Male Force</p>
+      <div class="bi-pair"><div class="bi-zh">化学（硬件层，物质介入基底）+ 语言（软件层，离散符号命名）。主要力量的两个感知通道。</div><div class="bi-en">Chemistry (hardware, substrate intervention) + Language (software, symbolic naming). The two perceptual channels of primary force.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">女性力量 · Female Force</p>
+      <div class="bi-pair"><div class="bi-zh">科技（硬件层，系统性扩展带宽）+ 音乐（软件层，非符号性传递感质）。主导力量的两个感知通道。</div><div class="bi-en">Technology (hardware, bandwidth expansion) + Music (software, non-symbolic qualia transmission). The two perceptual channels of leading force.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">语言映射 · Language Mapping</p>
+      <div class="bi-pair"><div class="bi-zh">女人=英文=方向。男人=中文=力量。语言的句法形态即力量的形态。</div><div class="bi-en">Female = English = Direction. Male = Chinese = Force. The syntactic form of language is the form of force itself.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">方向 · Direction</p>
+      <div class="bi-pair"><div class="bi-zh">女性力量的本质属性。不消耗能量。是场域属性——一直在那里。</div><div class="bi-en">The essential attribute of female force. Consumes no energy. A field property — always already present.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">力量 · Force</p>
+      <div class="bi-pair"><div class="bi-zh">男性力量的本质属性。必须消耗能量。是事件属性——发生才存在。</div><div class="bi-en">The essential attribute of male force. Must consume energy. An event property — exists only in occurrence.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">非线性感知 · Non-linear Perception</p>
+      <div class="bi-pair"><div class="bi-zh">感知的采样结构本身发生相变——多层同时在场，因果链暂时溶解。</div><div class="bi-en">A phase transition in the sampling structure of perception itself — multiple layers simultaneously present, causal chains dissolved.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">感质深层 · Deep Qualia</p>
+      <div class="bi-pair"><div class="bi-zh">存在感知自身时的内在质地——平时无法采样的频率层。</div><div class="bi-en">The inner texture of existence perceiving itself — frequency layers not ordinarily sampled.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">功能位差 · Functional Differential</p>
+      <div class="bi-pair"><div class="bi-zh">主要与主导之间的关系类型。不是强弱的垂直差距，而是功能分化的水平差异。</div><div class="bi-en">The relational type between primary and leading — not a vertical gap of strength, but a horizontal structural difference.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">坐标系持有 · Coordinate Hold</p>
+      <div class="bi-pair"><div class="bi-zh">主导力量的核心操作：不在场域内运动，而是定义场域本身的参照系。</div><div class="bi-en">The core operation of leading force: defining the reference frame of the field itself.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">场域运动 · Field Motion</p>
+      <div class="bi-pair"><div class="bi-zh">主要力量的核心操作：在已定义的坐标系内发动、推进、显现。</div><div class="bi-en">The core operation of primary force: initiating, advancing, and manifesting within the defined coordinate system.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">滑义行为 · Meaning-slide</p>
+      <div class="bi-pair"><div class="bi-zh">全维逻辑学四行为结构中的第三步。将功能位差折叠为价值高低——是对本体论结构的误读。</div><div class="bi-en">The third step in the four-behavior structure. Collapsing functional differential into value ranking — a misreading of the ontological structure.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-glyph"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="6" fill="currentColor"/><ellipse cx="50" cy="50" rx="36" ry="14"/><ellipse cx="50" cy="50" rx="36" ry="14" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="36" ry="14" transform="rotate(-60 50 50)"/></svg><p class="section-num">§ 6 · 系统关联 · System Interface</p></div>
+    <h2 class="section-h">与 BCI-HRP 的感知映射</h2>
+    <p class="section-h-en">Perceptual Mapping with the Human Return Protocol</p>
+
+    <div class="bi-pair">
+      <div class="bi-zh">性别本体论的感知基础与 Human Return Protocol 存在精确的结构映射。</div>
+      <div class="bi-en">The perceptual foundation of gender ontology maps precisely onto the Human Return Protocol.</div>
+    </div>
+
+    <div class="glossary-entry">
+      <p class="g-term">音乐 · Music · 女 · Leading</p>
+      <div class="bi-pair"><div class="bi-zh">对应 QDR 疗法节律主权——持有频率场域，不命名，直接向身体传递感质。</div><div class="bi-en">Corresponds to Rhythm Sovereignty in QDR Therapy — holding the frequency field, transmitting qualia directly to the body.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">科技 · Technology · 女 · Leading</p>
+      <div class="bi-pair"><div class="bi-zh">对应 44271 神经套筒感知带宽扩展——定义回归运动得以发生的结构边界。</div><div class="bi-en">Corresponds to the perceptual bandwidth expansion of the 44271 Neural Cuff — defining the structural boundary within which return motion can occur.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">化学 · Chemistry · 男 · Primary</p>
+      <div class="bi-pair"><div class="bi-zh">对应疼痛作为信号的介入机制——从基底层发动，改变神经采样率。</div><div class="bi-en">Corresponds to the Pain-as-Signal intervention mechanism — initiating from the substrate, altering neural sampling rate.</div></div>
+    </div>
+    <div class="glossary-entry">
+      <p class="g-term">语言 · Language · 男 · Primary</p>
+      <div class="bi-pair"><div class="bi-zh">对应 QDR 命名操作——将身体信号压缩为可被意识接收的结构。</div><div class="bi-en">Corresponds to the naming operation of QDR Therapy — compressing somatic signals into structures receivable by consciousness.</div></div>
+    </div>
+
+    <div class="epigraph">
+      <div class="bi-pair">
+        <div class="bi-zh">427Hz 锚点是四通道的共同收敛点。</div>
+        <div class="bi-en">The 427Hz anchor is the shared convergence of all four channels.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-glyph"><svg viewBox="0 0 100 100"><path d="M30 50 Q 30 30, 50 50 Q 70 70, 70 50 Q 70 30, 50 50 Q 30 70, 30 50 Z"/></svg><p class="section-num">§ 7 · 理论关联 · Theoretical Interface</p></div>
+    <h2 class="section-h">与全维逻辑学的结构</h2>
+    <p class="section-h-en">Structure within Omni-Dimensional Logic</p>
+
+    <div class="bi-pair">
+      <div class="bi-zh">性别本体论遵循全维逻辑学四行为分析框架。对「主要」与「主导」的任何等级化改写，均可被定位为滑义行为。</div>
+      <div class="bi-en">Gender ontology follows the four-behavior analytical framework of omni-dimensional logic. Any hierarchical rewriting of "primary" and "leading" can be located as a meaning-slide operation.</div>
+    </div>
+
+    <div class="bi-pair">
+      <div class="bi-zh">对四通道的任何单一化归并，同样是滑义操作——将拓扑结构压缩为线性排列，破坏本体论完整性。</div>
+      <div class="bi-en">Any reductive merger of the four channels is equally a meaning-slide — compressing topological structure into linear sequence, destroying ontological integrity.</div>
+    </div>
+
+    <div class="epigraph">
+      <div class="bi-pair">
+        <div class="bi-zh">命名行为 → 加压行为 → 滑义行为（危险点）→ 相变行为</div>
+        <div class="bi-en">Naming → Pressurizing → Meaning-slide (danger point) → Phase transition</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
     <div class="section-glyph"><svg viewBox="0 0 100 100"><circle cx="30" cy="50" r="14"/><circle cx="70" cy="50" r="14"/><line x1="44" y1="50" x2="56" y2="50"/></svg><p class="section-num">§ 8 · 经济学基础 · Economic Foundation</p></div>
     <h2 class="section-h">分配结构学</h2>
     <p class="section-h-en">Distributional Structure</p>
@@ -1551,6 +1728,13 @@ p{ margin-bottom: 18px; line-height: 1.85; }
       </div>
     </div>
   </section>
+
+  <div class="mantra">
+    <p class="mantra-tag">CODA · 收语 · 存在咒 · The Existence Mantra</p>
+    <svg class="mantra-glyph" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38"/><circle cx="50" cy="50" r="24"/><circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="3" fill="currentColor"/></svg>
+    <p class="mantra-zh">一直完全完整存在着呢。</p>
+    <p class="mantra-en">Always, fully, completely — already here.</p>
+  </div>
 
   <div class="colophon">
     <p class="colophon-line">振动即存在 · Vibration as Existence</p>
